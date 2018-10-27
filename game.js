@@ -26,7 +26,8 @@ const Game = function(fps) {
     }
 
     // timer
-    setInterval(function() {
+    window.fps = fps
+    const runloop = function() {
         // event
         const keyList = Object.keys(g.actions)
         for (const key of keyList) {
@@ -40,7 +41,12 @@ const Game = function(fps) {
         g.context.clearRect(0, 0, g.canvas.clientWidth, g.canvas.clientHeight)
         // draw
         g.draw()
-    }, 1000/fps)
+
+        // loop
+        setTimeout(runloop, 1000/window.fps)
+    }
+
+    setTimeout(runloop, 1000/window.fps)
 
     return g
 }

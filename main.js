@@ -10,15 +10,39 @@ const loadLevel = function(n) {
     return blocks
 }
 
+const enableDebugMode = function(enabled) {
+    if (!enabled) {
+        return
+    }
+
+    window.addEventListener('keydown', (event) => {
+        const k = event.key
+        if (k === 'p') {
+            window.paused = !window.paused
+        } else if ('123456789'.includes(k)) {
+            log(k)
+            blocks = loadLevel(Number(k))
+        }
+    })
+
+    document.querySelector('#id-fps-input').addEventListener('input', (event) => {
+        const value = event.target.value
+        window.fps = Number(value)
+    })
+}
+
+let blocks
 const __main = function() {
+    enableDebugMode(true)
+
     const game = Game(30)
     const paddle = Paddle()
     const ball = Ball()
 
-    let paused = false
+    window.paused = false
 
-    let blocks = loadLevel(1)
-    
+    blocks = loadLevel(1)
+
     game.registerAction('ArrowLeft', () => {
         paddle.moveLeft()
     })
@@ -29,15 +53,6 @@ const __main = function() {
 
     game.registerAction(' ', () => {
         ball.fire()
-    })
-
-    window.addEventListener('keydown', (event) => {
-        const k = event.key
-        if (k === 'p') {
-            paused = !paused
-        } else if ('123456789'.includes(k)) {
-            blocks = loadLevel(Number(k))
-        }
     })
 
     game.draw = function() {

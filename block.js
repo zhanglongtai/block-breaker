@@ -10,10 +10,14 @@ const Block = function(position) {
         width: 100,
         height: 12,
         alive: true,
+        life: p[2] || 1,
     }
 
     o.destroy = function() {
-        o.alive = false
+        o.life -= 1
+        if (o.life < 1) {
+            o.alive = false
+        }
     }
 
     o.collide = function(ball) {
