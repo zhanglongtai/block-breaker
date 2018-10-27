@@ -1,10 +1,12 @@
-const Block = function() {
+const Block = function(position) {
+    // position: [0, 100] --> x, y
     const image = imgFromPath('block.png')
 
+    const p = position
     const o = {
         image: image,
-        x: 100,
-        y: 100,
+        x: p[0],
+        y: p[1],
         width: 100,
         height: 12,
         alive: true,

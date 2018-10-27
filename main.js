@@ -1,3 +1,14 @@
+const loadLevel = function(n) {
+    level = levels[n - 1]
+
+    const blocks = []
+    for (const p of level) {
+        const block = Block(p)
+        blocks.push(block)
+    }
+
+    return blocks
+}
 
 const __main = function() {
     const game = Game(30)
@@ -6,13 +17,7 @@ const __main = function() {
 
     let paused = false
 
-    const blocks = []
-    for (let i = 0; i < 3; i++) {
-        const block = Block()
-        block.x = 0 + i*120 + 20
-        block.y = 100
-        blocks.push(block)
-    }
+    let blocks = loadLevel(1)
     
     game.registerAction('ArrowLeft', () => {
         paddle.moveLeft()
@@ -27,8 +32,12 @@ const __main = function() {
     })
 
     window.addEventListener('keydown', (event) => {
-        if (event.key === 'p')
-        paused = !paused
+        const k = event.key
+        if (k === 'p') {
+            paused = !paused
+        } else if ('123456789'.includes(k)) {
+            blocks = loadLevel(Number(k))
+        }
     })
 
     game.draw = function() {
