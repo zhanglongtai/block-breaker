@@ -1,4 +1,8 @@
-const log = console.log.bind(console)
+const log = function(input) {
+    const el = document.querySelector('#id-log')
+    el.value = el.value + '\n' + input
+    console.log.bind(console)
+}
 
 const imgFromPath = function(path) {
     const img = new Image()

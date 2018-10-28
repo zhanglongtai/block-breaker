@@ -35,6 +35,8 @@ let blocks
 const __main = function() {
     enableDebugMode(true)
 
+    let score = 0
+
     const game = Game(30)
     const paddle = Paddle()
     const ball = Ball()
@@ -63,6 +65,8 @@ const __main = function() {
                 game.drawImage(b)
             }
         }
+
+        game.context.fillText(`score: ${score}`, 10, 300)
     }
 
     game.update = function() {
@@ -76,6 +80,7 @@ const __main = function() {
             for (const b of blocks) {
                 if (b.collide(ball)) {
                     b.destroy()
+                    score += 100
                     ball.reverse()
                 }
             }
