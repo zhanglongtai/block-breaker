@@ -1,14 +1,19 @@
-const Ball = function() {
-    const image = imgFromPath('ball.png')
+const Ball = function(game) {
+    const o = game.imgByName('ball')
 
-    const o = {
-        image: image,
-        x: 100,
-        y: 220,
-        speedX: 5,
-        speedY: 5,
-        fired: false,
-    }
+    // const o = {
+    //     image: image,
+    //     x: 100,
+    //     y: 220,
+    //     speedX: 5,
+    //     speedY: 5,
+    //     fired: false,
+    // }
+    o.x = 100
+    o.y = 220
+    o.speedX = 5
+    o.speedY = 5
+    o.fired = false
 
     o.fire = function() {
         o.fired = true

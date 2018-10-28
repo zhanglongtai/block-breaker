@@ -1,6 +1,6 @@
 const log = function(input) {
-    const el = document.querySelector('#id-log')
-    el.value = el.value + '\n' + input
+    // const el = document.querySelector('#id-log')
+    // el.value = el.value + '\n' + input
     console.log.bind(console)
 }
 

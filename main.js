@@ -1,16 +1,16 @@
-const loadLevel = function(n) {
+const loadLevel = function(game, n) {
     level = levels[n - 1]
 
     const blocks = []
     for (const p of level) {
-        const block = Block(p)
+        const block = Block(game, p)
         blocks.push(block)
     }
 
     return blocks
 }
 
-const enableDebugMode = function(enabled) {
+const enableDebugMode = function(game, enabled) {
     if (!enabled) {
         return
     }
@@ -21,7 +21,7 @@ const enableDebugMode = function(enabled) {
             window.paused = !window.paused
         } else if ('123456789'.includes(k)) {
             log(k)
-            blocks = loadLevel(Number(k))
+            blocks = loadLevel(game, Number(k))
         }
     })
 
@@ -33,61 +33,68 @@ const enableDebugMode = function(enabled) {
 
 let blocks
 const __main = function() {
-    enableDebugMode(true)
+    
 
     let score = 0
-
-    const game = Game(30)
-    const paddle = Paddle()
-    const ball = Ball()
-
-    window.paused = false
-
-    blocks = loadLevel(1)
-
-    game.registerAction('ArrowLeft', () => {
-        paddle.moveLeft()
-    })
-
-    game.registerAction('ArrowRight', () => {
-        paddle.moveRight()
-    })
-
-    game.registerAction(' ', () => {
-        ball.fire()
-    })
-
-    game.draw = function() {
-        game.drawImage(paddle)
-        game.drawImage(ball)
-        for (const b of blocks) {
-            if (b.alive) {
-                game.drawImage(b)
-            }
-        }
-
-        game.context.fillText(`score: ${score}`, 10, 300)
+    const imgPath = {
+        ball: 'ball.png',
+        paddle: 'paddle.png',
+        block: 'block.png',
     }
 
-    game.update = function() {
-        if (!paused) {
-            ball.move()
+    const game = Game(30, imgPath, (gameInstance) => {
+        const paddle = Paddle(game)
+        const ball = Ball(game)
 
-            if (paddle.collide(ball)) {
-                ball.reverse()
-            }
+        blocks = loadLevel(game, 1)
 
+        game.registerAction('ArrowLeft', () => {
+            paddle.moveLeft()
+        })
+
+        game.registerAction('ArrowRight', () => {
+            paddle.moveRight()
+        })
+
+        game.registerAction(' ', () => {
+            ball.fire()
+        })
+
+        game.draw = function() {
+            game.drawImage(paddle)
+            game.drawImage(ball)
             for (const b of blocks) {
-                if (b.collide(ball)) {
-                    b.destroy()
-                    score += 100
-                    ball.reverse()
+                if (b.alive) {
+                    game.drawImage(b)
                 }
             }
-        } else {
-            return
+
+            game.context.fillText(`score: ${score}`, 10, 300)
         }
-    }
+
+        game.update = function() {
+            if (!paused) {
+                ball.move()
+
+                if (paddle.collide(ball)) {
+                    ball.reverse()
+                }
+
+                for (const b of blocks) {
+                    if (b.collide(ball)) {
+                        b.destroy()
+                        score += 10
+                        ball.reverse()
+                    }
+                }
+            } else {
+                return
+            }
+        }
+    })
+
+    enableDebugMode(game, true)
+    window.paused = false
 }
 
 __main()

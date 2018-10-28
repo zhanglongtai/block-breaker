@@ -1,17 +1,21 @@
-const Block = function(position) {
+const Block = function(game, position) {
     // position: [0, 100] --> x, y
-    const image = imgFromPath('block.png')
+    const o = game.imgByName('block')
 
     const p = position
-    const o = {
-        image: image,
-        x: p[0],
-        y: p[1],
-        width: 100,
-        height: 12,
-        alive: true,
-        life: p[2] || 1,
-    }
+    // const o = {
+    //     image: image,
+    //     x: p[0],
+    //     y: p[1],
+    //     width: 100,
+    //     height: 12,
+    //     alive: true,
+    //     life: p[2] || 1,
+    // }
+    o.x = p[0]
+    o.y = p[1]
+    o.alive = true
+    o.life = p[2] || 1
 
     o.destroy = function() {
         o.life -= 1

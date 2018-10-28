@@ -1,4 +1,4 @@
-const Game = function(fps) {
+const Game = function(fps, imgToLoad, loadedCallback) {
     const canvas = document.querySelector('#id-game-interface')
     const ctx = canvas.getContext('2d')
 
@@ -7,6 +7,7 @@ const Game = function(fps) {
         context: ctx,
         actions: {},
         keydowns: {},
+        imgList: {},
     }
 
     g.drawImage = function(imgObj) {
@@ -46,7 +47,41 @@ const Game = function(fps) {
         setTimeout(runloop, 1000/window.fps)
     }
 
-    setTimeout(runloop, 1000/window.fps)
+    // load image
+    const loadedList = []
+    const component = Object.keys(imgToLoad)
+    for (const imgName of component) {
+        const img = new Image()
+        img.src = imgToLoad[imgName]
+
+        img.onload = function() {
+            // store img
+            g.imgList[imgName] = img
+            // valid all img loaded
+            loadedList.push(1)
+            if (loadedList.length === component.length) {
+                g.run()
+            }
+        }
+    }
+
+    g.imgByName = function(name) {
+        const img = g.imgList[name]
+
+        const o = {
+            image: img,
+            width: img.width,
+            height: img.height,
+        }
+
+        return o
+    }
+
+    // game start
+    g.run = function() {
+        loadedCallback(g)
+        setTimeout(runloop, 1000/window.fps)
+    }
 
     return g
 }
