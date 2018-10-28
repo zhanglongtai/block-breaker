@@ -16,8 +16,8 @@ const Paddle = function(game) {
             x = 0
         }
 
-        if (x > 400 - o.image.width) {
-            x = 400 - o.image.width
+        if (x > 400 - o.width) {
+            x = 400 - o.width
         }
 
         o.x = x
@@ -31,8 +31,20 @@ const Paddle = function(game) {
         o.move(o.x + o.speed)
     }
 
+    const aInb = function(x, x1, x2) {
+        return x >= x1 && x <= x2
+    }
+
     o.collide = function(ball) {
-        return rectIntersects(o, ball) || rectIntersects(ball, o)
+        // return rectIntersects(o, ball) || rectIntersects(ball, o)
+        const a = o
+        const b = ball
+        if (aInb(a.x, b.x, b.x + b.w) || aInb(b.x, a.x, a.x + a.w)) {
+            if (aInb(a.y, b.y, b.y + b.h) || aInb(b.y, a.y, a.y + a.h)) {
+                return true
+            }
+        }
+        return false
     }
 
     return o

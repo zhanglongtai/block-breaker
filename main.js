@@ -61,6 +61,10 @@ const __main = function() {
         })
 
         game.draw = function() {
+            // background
+            // game.context.fillStyle = "#554"
+            // game.context.fillRect(0, 0, 400, 300)
+            // component
             game.drawImage(paddle)
             game.drawImage(ball)
             for (const b of blocks) {
@@ -91,6 +95,35 @@ const __main = function() {
                 return
             }
         }
+
+        // drag ball
+        let dragging = false
+        game.canvas.addEventListener('mousedown', (event) => {
+            const x = event.offsetX
+            const y = event.offsetY
+
+            // check if click on ball
+            if (ball.hasPoint(x, y)) {
+                dragging = true
+            }
+        })
+
+        game.canvas.addEventListener('mousemove', (event) => {
+            const x = event.offsetX
+            const y = event.offsetY
+
+            if (dragging) {
+                ball.x = x
+                ball.y = y
+            }
+        })
+
+        game.canvas.addEventListener('mouseup', (event) => {
+            const x = event.offsetX
+            const y = event.offsetY
+
+            dragging = false
+        })
     })
 
     enableDebugMode(game, true)

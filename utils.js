@@ -12,8 +12,8 @@ const imgFromPath = function(path) {
 }
 
 const rectIntersects = function(a, b) {
-    if (b.y > a.y && b.y < a.image.height + a.y) {
-        if (b.x > a.x && b.x < a.x + a.image.width) {
+    if (b.y > a.y && b.y < a.height + a.y) {
+        if (b.x > a.x && b.x < a.x + a.width) {
             return true
         }
     }

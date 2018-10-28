@@ -38,5 +38,12 @@ const Ball = function(game) {
         o.speedY = -o.speedY
     }
 
+    o.hasPoint = function(x, y) {
+        const xIn = x >= o.x && x <= (o.x + o.width)
+        const yIn = y >= o.y && y <= (o.y + o.height)
+
+        return xIn && yIn
+    }
+
     return o
 }
