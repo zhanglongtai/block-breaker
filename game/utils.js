@@ -1,7 +1,7 @@
-const log = function(input) {
+const log = function() {
     // const el = document.querySelector('#id-log')
     // el.value = el.value + '\n' + input
-    console.log.bind(console)
+    console.log.apply(console, arguments)
 }
 
 const imgFromPath = function(path) {

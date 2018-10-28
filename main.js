@@ -37,14 +37,13 @@ const __main = function() {
 
     let score = 0
     const imgPath = {
-        ball: 'ball.png',
-        paddle: 'paddle.png',
-        block: 'block.png',
+        ball: 'img/ball.png',
+        paddle: 'img/paddle.png',
+        block: 'img/block.png',
     }
 
-    const game = Game(30, imgPath, (gameInstance) => {
-        scene = Scene(game)
-
+    const game = Game.singleInstance(30, imgPath, (gameInstance) => {
+        const scene = SceneTitle.new(gameInstance)
         game.runWithScene(scene)
     })
 
