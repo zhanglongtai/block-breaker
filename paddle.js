@@ -39,8 +39,8 @@ const Paddle = function(game) {
         // return rectIntersects(o, ball) || rectIntersects(ball, o)
         const a = o
         const b = ball
-        if (aInb(a.x, b.x, b.x + b.w) || aInb(b.x, a.x, a.x + a.w)) {
-            if (aInb(a.y, b.y, b.y + b.h) || aInb(b.y, a.y, a.y + a.h)) {
+        if (aInb(a.x, b.x, b.x + b.width) || aInb(b.x, a.x, a.x + a.width)) {
+            if (aInb(a.y, b.y, b.y + b.height) || aInb(b.y, a.y, a.y + a.height)) {
                 return true
             }
         }

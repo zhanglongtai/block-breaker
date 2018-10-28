@@ -8,6 +8,7 @@ const Game = function(fps, imgToLoad, loadedCallback) {
         actions: {},
         keydowns: {},
         imgList: {},
+        scene: null,
     }
 
     g.drawImage = function(imgObj) {
@@ -24,6 +25,14 @@ const Game = function(fps, imgToLoad, loadedCallback) {
 
     g.registerAction = function(keyName, callback) {
         g.actions[keyName] = callback
+    }
+
+    g.draw = function() {
+        g.scene.draw()
+    }
+
+    g.update = function() {
+        g.scene.update()
     }
 
     // timer
@@ -60,7 +69,7 @@ const Game = function(fps, imgToLoad, loadedCallback) {
             // valid all img loaded
             loadedList.push(1)
             if (loadedList.length === component.length) {
-                g.run()
+                g.__init()
             }
         }
     }
@@ -77,10 +86,19 @@ const Game = function(fps, imgToLoad, loadedCallback) {
         return o
     }
 
-    // game start
-    g.run = function() {
-        loadedCallback(g)
+    g.runWithScene = function(scene) {
+        g.scene = scene
+
+        // start game
         setTimeout(runloop, 1000/window.fps)
+    }
+
+    g.replaceScene = function(scene) {
+        g.scene = scene
+    }
+
+    g.__init = function() {
+        loadedCallback(g)
     }
 
     return g

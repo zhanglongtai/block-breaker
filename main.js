@@ -43,87 +43,9 @@ const __main = function() {
     }
 
     const game = Game(30, imgPath, (gameInstance) => {
-        const paddle = Paddle(game)
-        const ball = Ball(game)
+        scene = Scene(game)
 
-        blocks = loadLevel(game, 1)
-
-        game.registerAction('ArrowLeft', () => {
-            paddle.moveLeft()
-        })
-
-        game.registerAction('ArrowRight', () => {
-            paddle.moveRight()
-        })
-
-        game.registerAction(' ', () => {
-            ball.fire()
-        })
-
-        game.draw = function() {
-            // background
-            // game.context.fillStyle = "#554"
-            // game.context.fillRect(0, 0, 400, 300)
-            // component
-            game.drawImage(paddle)
-            game.drawImage(ball)
-            for (const b of blocks) {
-                if (b.alive) {
-                    game.drawImage(b)
-                }
-            }
-
-            game.context.fillText(`score: ${score}`, 10, 300)
-        }
-
-        game.update = function() {
-            if (!paused) {
-                ball.move()
-
-                if (paddle.collide(ball)) {
-                    ball.reverse()
-                }
-
-                for (const b of blocks) {
-                    if (b.collide(ball)) {
-                        b.destroy()
-                        score += 10
-                        ball.reverse()
-                    }
-                }
-            } else {
-                return
-            }
-        }
-
-        // drag ball
-        let dragging = false
-        game.canvas.addEventListener('mousedown', (event) => {
-            const x = event.offsetX
-            const y = event.offsetY
-
-            // check if click on ball
-            if (ball.hasPoint(x, y)) {
-                dragging = true
-            }
-        })
-
-        game.canvas.addEventListener('mousemove', (event) => {
-            const x = event.offsetX
-            const y = event.offsetY
-
-            if (dragging) {
-                ball.x = x
-                ball.y = y
-            }
-        })
-
-        game.canvas.addEventListener('mouseup', (event) => {
-            const x = event.offsetX
-            const y = event.offsetY
-
-            dragging = false
-        })
+        game.runWithScene(scene)
     })
 
     enableDebugMode(game, true)
