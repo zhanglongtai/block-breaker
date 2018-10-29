@@ -36,6 +36,6 @@ class SceneEnd extends Scene {
         // game.context.fillStyle = "#554"
         // game.context.fillRect(0, 0, 400, 300)
 
-        this.game.context.fillText('game over, press R to restart', 100, 200)
+        this.game.context.fillText('game over, press r to return main menu', 100, 150)
     }
 }

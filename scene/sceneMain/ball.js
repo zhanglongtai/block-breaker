@@ -9,8 +9,8 @@ const Ball = function(game) {
     //     speedY: 5,
     //     fired: false,
     // }
-    o.x = 100
-    o.y = 220
+    o.x = 130
+    o.y = 240
     o.speedX = 5
     o.speedY = 5
     o.fired = false

@@ -97,14 +97,17 @@
 // }
 
 class SceneMain extends Scene {
-    constructor(game) {
+    constructor(game, customLevel, levelIndex) {
         super(game)
 
         this.paddle = Paddle(this.game)
         this.ball = Ball(this.game)
-        this.blocks = loadLevel(this.game, 1)
+        this.levels = customLevel || localLevels
+        this.levelIndex = levelIndex || 1
+        this.blocks = loadLevel(this.game, this.levels, this.levelIndex)
 
         this.score = 0
+        this.dragging = false
 
         this.game.registerAction('ArrowLeft', () => {
             this.paddle.moveLeft()
@@ -114,8 +117,29 @@ class SceneMain extends Scene {
             this.paddle.moveRight()
         })
     
-        this.game.registerAction(' ', () => {
+        this.game.registerAction('f', () => {
             this.ball.fire()
+        })
+
+        this.game.canvas.addEventListener('mousedown', (event) => {
+            const x = event.offsetX
+            const y = event.offsetY
+            if (this.ball.hasPoint(x, y)) {
+                this.dragging = true
+            }
+        })
+
+        this.game.canvas.addEventListener('mousemove', (event) => {
+            const x = event.offsetX
+            const y = event.offsetY
+            if (this.dragging) {
+                this.ball.x = x
+                this.ball.y = y
+            }
+        })
+
+        this.game.canvas.addEventListener('mouseup', (event) => {
+            this.dragging = false
         })
     }
 
@@ -132,7 +156,7 @@ class SceneMain extends Scene {
             }
         }
 
-        this.game.context.fillText(`score: ${this.score}`, 10, 300)
+        this.game.context.fillText(`score: ${this.score}`, 10, 290)
     }
 
     update() {

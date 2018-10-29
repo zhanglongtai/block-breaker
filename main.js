@@ -1,12 +1,11 @@
-const loadLevel = function(game, n) {
-    level = levels[n - 1]
+const loadLevel = function(game, levels, n) {
+    const level = levels[n - 1]
 
     const blocks = []
     for (const p of level) {
         const block = Block(game, p)
         blocks.push(block)
     }
-
     return blocks
 }
 
@@ -20,8 +19,8 @@ const enableDebugMode = function(game, enabled) {
         if (k === 'p') {
             window.paused = !window.paused
         } else if ('123456789'.includes(k)) {
-            log(k)
-            blocks = loadLevel(game, Number(k))
+            const scene = SceneMain.new(game, localLevels, Number(k))
+            game.replaceScene(scene)
         }
     })
 
@@ -31,11 +30,7 @@ const enableDebugMode = function(game, enabled) {
     })
 }
 
-let blocks
 const __main = function() {
-    
-
-    let score = 0
     const imgPath = {
         ball: 'img/ball.png',
         paddle: 'img/paddle.png',

@@ -1,10 +1,10 @@
 class Scene {
-    constructor(game) {
+    constructor(game, ...args) {
         this.game = game
     }
 
-    static new(game) {
-        const i = new this(game)
+    static new(game, ...args) {
+        const i = new this(game, ...args)
         return i
     }
 
