@@ -21,7 +21,6 @@ class SceneEditor extends Scene {
                 const y = this.newBlock.y
                 this.level[0].push([x, y])
 
-                // this.newBlock.forceDie()
                 this.newBlock = null
             }
         })
